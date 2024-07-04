@@ -13,7 +13,6 @@ public class LoginResponse {
     private Long userId;
     private String username;
     private String email;
-    private String userPhoto;
     private String role;
     private String useFullName;
     private boolean isNewUser;

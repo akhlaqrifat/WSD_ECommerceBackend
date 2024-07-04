@@ -23,8 +23,6 @@ public class User extends MasterEntity implements UserDetails {
     @JoinColumn(name = "role_id")
     private Role role;
 
-    private String userPhoto;
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.getName()));

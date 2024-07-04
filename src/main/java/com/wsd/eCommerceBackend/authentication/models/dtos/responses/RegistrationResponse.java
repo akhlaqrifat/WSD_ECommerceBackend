@@ -13,5 +13,4 @@ public class RegistrationResponse {
     private String email;
     private String userFullName;
     private String phone;
-    private String userPhoto;
 }

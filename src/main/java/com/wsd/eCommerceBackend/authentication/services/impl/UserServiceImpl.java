@@ -90,7 +90,7 @@ public class UserServiceImpl implements UserService {
             throw new CustomException("Couldn't save new User!");
         }
 
-        return new RegistrationResponse(user.getId(), user.getUsername(), user.getEmail(), user.getFullName(), registrationRequest.getPhone(), user.getUserPhoto());
+        return new RegistrationResponse(user.getId(), user.getUsername(), user.getEmail(), user.getFullName(), registrationRequest.getPhone());
 
     }
 
@@ -127,7 +127,7 @@ public class UserServiceImpl implements UserService {
                 String accessToken = jwtService.generateToken(user);
                 String refreshToken = jwtService.generateRefreshToken(new HashMap<>(), user);
                 jwtService.saveRefreshToken(user.getId(), refreshToken);
-                return new LoginResponse(accessToken, refreshToken, user.getId(), user.getUsername(), user.getEmail(), user.getUserPhoto(), user.getRole().getName(), user.getFullName(), false);
+                return new LoginResponse(accessToken, refreshToken, user.getId(), user.getUsername(), user.getEmail(), user.getRole().getName(), user.getFullName(), false);
             } else {
                 LoginResponse loginResponse = new LoginResponse();
                 loginResponse.setNewUser(true);
