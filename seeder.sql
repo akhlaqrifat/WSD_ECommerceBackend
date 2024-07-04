@@ -1,139 +1,157 @@
--- create table refresh_token
--- (
---     id         bigserial
---         primary key,
---     created_on timestamp with time zone default now(),
---     is_active  boolean                  default true,
---     updated_on timestamp with time zone default now(),
---     token      varchar(255),
---     user_id    bigint
--- );
---
--- alter table refresh_token
---     owner to postgres;
---
--- create table role
--- (
---     id         bigserial
---         primary key,
---     created_on timestamp with time zone default now(),
---     is_active  boolean                  default true,
---     updated_on timestamp with time zone default now(),
---     name       varchar(255)
--- );
---
--- alter table role
---     owner to postgres;
---
--- create table users
--- (
---     id         bigserial
---         primary key,
---     created_on timestamp with time zone default now(),
---     is_active  boolean                  default true,
---     updated_on timestamp with time zone default now(),
---     email      varchar(255),
---     full_name  varchar(255),
---     password   varchar(255),
---     phone      varchar(255),
---     user_name  varchar(255),
---     role_id    bigint
---         constraint fk4qu1gr772nnf6ve5af002rwya
---             references role
--- );
---
--- alter table users
---     owner to postgres;
---
--- create table category
--- (
---     id         bigserial
---         primary key,
---     created_on timestamp with time zone default now(),
---     is_active  boolean                  default true,
---     updated_on timestamp with time zone default now(),
---     name       varchar(255)
--- );
---
--- alter table category
---     owner to postgres;
---
--- create table product
--- (
---     id          bigserial
---         primary key,
---     created_on  timestamp with time zone default now(),
---     is_active   boolean                  default true,
---     updated_on  timestamp with time zone default now(),
---     name        varchar(255),
---     price       double precision,
---     category_id bigint
---         constraint fk1mtsbur82frn64de7balymq9s
---             references category
--- );
---
--- alter table product
---     owner to postgres;
---
--- create table sale
--- (
---     id            bigserial
---         primary key,
---     created_on    timestamp with time zone default now(),
---     is_active     boolean                  default true,
---     updated_on    timestamp with time zone default now(),
---     paid_amount   double precision,
---     product_count integer not null,
---     customer_id   bigint
---         constraint fkrhld4cqdhmv9rmitpeolnqsf
---             references users
--- );
---
--- alter table sale
---     owner to postgres;
---
--- create table sale_product
--- (
---     sale_id    bigint not null
---         constraint fk4dtibi1vwxkx8gjs59nhp0cnq
---             references sale,
---     product_id bigint not null
---         constraint fkrtwiisrmdqeslt86pacdwwn1o
---             references product
--- );
---
--- alter table sale_product
---     owner to postgres;
---
--- create table wishlist
--- (
---     id          bigserial
---         primary key,
---     created_on  timestamp with time zone default now(),
---     is_active   boolean                  default true,
---     updated_on  timestamp with time zone default now(),
---     customer_id bigint
---         constraint uk_i62hn96gwmmykqrbf8j2heo6b
---             unique
---         constraint fke465y0vkoa367ur8olqbw5cm4
---             references users
--- );
---
--- alter table wishlist
---     owner to postgres;
---
--- create table wishlist_product
--- (
---     wishlist_id bigint not null
---         constraint fk6qi207s5p27bm3qmkxpk1fv8o
---             references wishlist,
---     product_id  bigint not null
---         constraint fksqs4r107po6y96en1si6pryx7
---             references product
--- );
---
--- alter table wishlist_product
---     owner to postgres;
+DROP TABLE IF EXISTS refresh_token;
+
+create table refresh_token
+(
+    id         bigserial
+        primary key,
+    created_on timestamp with time zone default now(),
+    is_active  boolean                  default true,
+    updated_on timestamp with time zone default now(),
+    token      varchar(255),
+    user_id    bigint
+);
+
+alter table refresh_token
+    owner to postgres;
+
+DROP TABLE IF EXISTS role;
+
+create table role
+(
+    id         bigserial
+        primary key,
+    created_on timestamp with time zone default now(),
+    is_active  boolean                  default true,
+    updated_on timestamp with time zone default now(),
+    name       varchar(255)
+);
+
+alter table role
+    owner to postgres;
+
+DROP TABLE IF EXISTS users;
+
+create table users
+(
+    id         bigserial
+        primary key,
+    created_on timestamp with time zone default now(),
+    is_active  boolean                  default true,
+    updated_on timestamp with time zone default now(),
+    email      varchar(255),
+    full_name  varchar(255),
+    password   varchar(255),
+    phone      varchar(255),
+    user_name  varchar(255),
+    role_id    bigint
+        constraint fk4qu1gr772nnf6ve5af002rwya
+            references role
+);
+
+alter table users
+    owner to postgres;
+
+DROP TABLE IF EXISTS category;
+
+create table category
+(
+    id         bigserial
+        primary key,
+    created_on timestamp with time zone default now(),
+    is_active  boolean                  default true,
+    updated_on timestamp with time zone default now(),
+    name       varchar(255)
+);
+
+alter table category
+    owner to postgres;
+
+DROP TABLE IF EXISTS product;
+
+create table product
+(
+    id          bigserial
+        primary key,
+    created_on  timestamp with time zone default now(),
+    is_active   boolean                  default true,
+    updated_on  timestamp with time zone default now(),
+    name        varchar(255),
+    price       double precision,
+    category_id bigint
+        constraint fk1mtsbur82frn64de7balymq9s
+            references category
+);
+
+alter table product
+    owner to postgres;
+
+DROP TABLE IF EXISTS sale;
+
+create table sale
+(
+    id            bigserial
+        primary key,
+    created_on    timestamp with time zone default now(),
+    is_active     boolean                  default true,
+    updated_on    timestamp with time zone default now(),
+    paid_amount   double precision,
+    product_count integer not null,
+    customer_id   bigint
+        constraint fkrhld4cqdhmv9rmitpeolnqsf
+            references users
+);
+
+alter table sale
+    owner to postgres;
+
+DROP TABLE IF EXISTS sale_product;
+
+create table sale_product
+(
+    sale_id    bigint not null
+        constraint fk4dtibi1vwxkx8gjs59nhp0cnq
+            references sale,
+    product_id bigint not null
+        constraint fkrtwiisrmdqeslt86pacdwwn1o
+            references product
+);
+
+alter table sale_product
+    owner to postgres;
+
+DROP TABLE IF EXISTS wishlist;
+
+create table wishlist
+(
+    id          bigserial
+        primary key,
+    created_on  timestamp with time zone default now(),
+    is_active   boolean                  default true,
+    updated_on  timestamp with time zone default now(),
+    customer_id bigint
+        constraint uk_i62hn96gwmmykqrbf8j2heo6b
+            unique
+        constraint fke465y0vkoa367ur8olqbw5cm4
+            references users
+);
+
+alter table wishlist
+    owner to postgres;
+
+DROP TABLE IF EXISTS wishlist_product;
+
+create table wishlist_product
+(
+    wishlist_id bigint not null
+        constraint fk6qi207s5p27bm3qmkxpk1fv8o
+            references wishlist,
+    product_id  bigint not null
+        constraint fksqs4r107po6y96en1si6pryx7
+            references product
+);
+
+alter table wishlist_product
+    owner to postgres;
 
 INSERT INTO role (name) VALUES ('ROLE_ADMIN'),('ROLE_USER'),('ROLE_CUSTOMER');
 
