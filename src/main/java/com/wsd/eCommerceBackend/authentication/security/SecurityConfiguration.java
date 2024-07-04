@@ -32,12 +32,7 @@ public class SecurityConfiguration {
                                 "/api/auth/**",
                                 "/swagger-ui-testing.html",
                                 "/swagger-ui/**",
-                                "/v3/api-docs/**",
-                                "/ws/**",
-                                "/api/aws/download/**",
-                                "/api/aws/upload",
-                                "/api/utils/getAppVersionByOS/**",
-                                "api/notifications/sendSingleNotification"
+                                "/v3/api-docs/**"
                         )
                         .permitAll()
                         .anyRequest().authenticated())

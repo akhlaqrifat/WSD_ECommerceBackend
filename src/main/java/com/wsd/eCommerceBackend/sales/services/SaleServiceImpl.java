@@ -4,14 +4,20 @@ import com.wsd.eCommerceBackend.authentication.repositories.UserRepository;
 import com.wsd.eCommerceBackend.exceptions.CustomException;
 import com.wsd.eCommerceBackend.exceptions.DatabaseException;
 import com.wsd.eCommerceBackend.product.models.entity.Product;
+import com.wsd.eCommerceBackend.sales.models.dto.TopProductResponse;
 import com.wsd.eCommerceBackend.sales.models.entity.Sale;
 import com.wsd.eCommerceBackend.sales.models.entity.WishList;
 import com.wsd.eCommerceBackend.sales.repositories.SaleRepository;
 import com.wsd.eCommerceBackend.sales.repositories.WishListRepository;
+import jakarta.persistence.Tuple;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -57,21 +63,61 @@ public class SaleServiceImpl implements SaleService {
 
     @Override
     public Double getTotalSalesToday() {
-        return 0.0;
+        try {
+            OffsetDateTime odt = OffsetDateTime.now();
+            Instant instant = odt.toInstant();
+            Date todayDate =  Date.from(instant);
+            return saleRepository.getDateWiseTotalSaleAmount(todayDate);
+        }catch (DatabaseException de){
+            throw new CustomException("Fetching failed!"+de);
+        }
     }
 
     @Override
-    public Date getMaxSalesDay(Date startDate, Date endDate) {
-        return null;
+    public Date getMaxSalesDay(LocalDate startDate, LocalDate endDate) {
+        try {
+            return saleRepository.getMaxSalesDay(startDate,endDate);
+        }catch (DatabaseException de){
+            throw new CustomException("Fetching failed!"+de);
+        }
     }
 
     @Override
-    public List<Product> getTop5ProductBySalesAllTime() {
-        return List.of();
+    public TopProductResponse getTop5ProductBySalesAllTime() {
+        try {
+            TopProductResponse topProductResponse = new TopProductResponse();
+            List<Tuple> tuples = saleRepository.getTopProductsBySalesAllTime();
+            List<String> productNames = new ArrayList<>();
+            for (Tuple tuple : tuples) {
+                productNames.add(tuple.get("name", String.class));
+            }
+            topProductResponse.setProductNames(productNames);
+
+            return topProductResponse;
+        }catch (DatabaseException de){
+            throw new CustomException("Fetching failed!"+de);
+        }
     }
 
     @Override
-    public List<Product> getTop5ProductBySalesLastMonth() {
-        return List.of();
+    public TopProductResponse getTop5ProductBySalesLastMonth() {
+        try {
+            OffsetDateTime offsetDateTime = OffsetDateTime.now();
+            OffsetDateTime startOfTheMonth = offsetDateTime.minusMonths(1).withDayOfMonth(1).withHour(0).withMinute(0).withSecond(0).withNano(0);
+            Date startDate = Date.from(startOfTheMonth.toInstant());
+            OffsetDateTime endOfMonth = offsetDateTime.withDayOfMonth(1).minusDays(1).withHour(23).withMinute(59).withSecond(59).withNano(999999999);
+            Date endDate = Date.from(endOfMonth.toInstant());
+            TopProductResponse topProductResponse = new TopProductResponse();
+            List<Tuple> tuples = saleRepository.getTopProductsBySalesLastMonth(startDate,endDate);
+            List<String> productNames = new ArrayList<>();
+            for (Tuple tuple : tuples) {
+                productNames.add(tuple.get("name", String.class));
+            }
+            topProductResponse.setProductNames(productNames);
+
+            return topProductResponse;
+        }catch (DatabaseException de){
+            throw new CustomException("Fetching failed!"+de);
+        }
     }
 }

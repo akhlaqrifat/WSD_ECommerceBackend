@@ -4,6 +4,7 @@ import com.wsd.eCommerceBackend.constants.AppRoutes;
 import com.wsd.eCommerceBackend.constants.IConstants;
 import com.wsd.eCommerceBackend.models.commons.ResponseModel;
 import com.wsd.eCommerceBackend.product.models.entity.Product;
+import com.wsd.eCommerceBackend.sales.models.dto.TopProductResponse;
 import com.wsd.eCommerceBackend.sales.models.entity.Sale;
 import com.wsd.eCommerceBackend.sales.models.entity.WishList;
 import com.wsd.eCommerceBackend.sales.services.SaleService;
@@ -54,8 +55,8 @@ public class SaleController implements IConstants {
 
     @GetMapping(AppRoutes.SaleController.GET_MAX_SALE_DAY)
     public ResponseEntity<ResponseModel<Date>> getMaxSaleDay(
-            @RequestParam Date startDate,
-            @RequestParam Date endDate
+            @RequestParam LocalDate startDate,
+            @RequestParam LocalDate endDate
             ){
         ResponseEntity<ResponseModel<Date>> response = ResponseEntity.ok(convertToJSON(saleService.getMaxSalesDay(startDate,endDate)));
         Objects.requireNonNull(response.getBody()).setMessage("Getting max sale day!");
@@ -63,16 +64,16 @@ public class SaleController implements IConstants {
     }
 
     @GetMapping(AppRoutes.SaleController.GET_TOP_SELLING_PRODUCTS_ALL_TIME)
-    public ResponseEntity<ResponseModel<List<Product>>> getTopSellingProductsAllTime(){
-        ResponseEntity<ResponseModel<List<Product>>> response = ResponseEntity.ok(convertToJSON(saleService.getTop5ProductBySalesAllTime()));
+    public ResponseEntity<ResponseModel<TopProductResponse>> getTopSellingProductsAllTime(){
+        ResponseEntity<ResponseModel<TopProductResponse>> response = ResponseEntity.ok(convertToJSON(saleService.getTop5ProductBySalesAllTime()));
         Objects.requireNonNull(response.getBody()).setMessage("Getting top selling products all time!");
         return response;
 
     }
 
     @GetMapping(AppRoutes.SaleController.GET_TOP_SELLING_PRODUCTS_LAST_MONTH)
-    public ResponseEntity<ResponseModel<List<Product>>> getTopSellingProductsLastMonth(){
-        ResponseEntity<ResponseModel<List<Product>>> response = ResponseEntity.ok(convertToJSON(saleService.getTop5ProductBySalesLastMonth()));
+    public ResponseEntity<ResponseModel<TopProductResponse>> getTopSellingProductsLastMonth(){
+        ResponseEntity<ResponseModel<TopProductResponse>> response = ResponseEntity.ok(convertToJSON(saleService.getTop5ProductBySalesLastMonth()));
         Objects.requireNonNull(response.getBody()).setMessage("Getting top selling products last month!");
         return response;
 

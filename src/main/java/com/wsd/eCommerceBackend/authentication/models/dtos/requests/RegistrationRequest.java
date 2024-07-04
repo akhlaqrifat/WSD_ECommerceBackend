@@ -10,8 +10,6 @@ public class RegistrationRequest {
     private String fullName;
     private String email;
     private String phone;
-    private String postalCode;
     private String password;
-    private MultipartFile userPhoto;
     private String role;
 }

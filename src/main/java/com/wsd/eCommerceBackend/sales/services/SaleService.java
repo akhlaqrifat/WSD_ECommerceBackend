@@ -1,6 +1,7 @@
 package com.wsd.eCommerceBackend.sales.services;
 
 import com.wsd.eCommerceBackend.product.models.entity.Product;
+import com.wsd.eCommerceBackend.sales.models.dto.TopProductResponse;
 import com.wsd.eCommerceBackend.sales.models.entity.Sale;
 import com.wsd.eCommerceBackend.sales.models.entity.WishList;
 
@@ -14,7 +15,7 @@ public interface SaleService {
     List<Sale> getAllSales();
     WishList getWishListByCustomerId(Long customerId);
     Double getTotalSalesToday();
-    Date getMaxSalesDay(Date startDate, Date endDate);
-    List<Product> getTop5ProductBySalesAllTime();
-    List<Product> getTop5ProductBySalesLastMonth();
+    Date getMaxSalesDay(LocalDate startDate, LocalDate endDate);
+    TopProductResponse getTop5ProductBySalesAllTime();
+    TopProductResponse getTop5ProductBySalesLastMonth();
 }

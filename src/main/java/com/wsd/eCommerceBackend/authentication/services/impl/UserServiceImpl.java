@@ -63,6 +63,11 @@ public class UserServiceImpl implements UserService {
             throw new CustomException("Email id is not valid!");
         }
 
+
+        if (userRepository.existsByPhone(registrationRequest.getPhone())) {
+            throw new CustomException("Error: Phone is already taken!");
+        }
+
         // Create new user's account
         User user = new User();
         user.setUserName(username);
@@ -171,9 +176,6 @@ public class UserServiceImpl implements UserService {
     }
 
     public boolean validatePhoneNumber(String phone) {
-        if (userRepository.existsByPhone(phone)) {
-            throw new CustomException("Error: Phone is already taken!");
-        }
         PhoneNumberUtil phoneNumberUtil = PhoneNumberUtil.getInstance();
 
         try {

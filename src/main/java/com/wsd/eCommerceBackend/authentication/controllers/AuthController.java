@@ -41,8 +41,8 @@ public class AuthController implements IConstants {
         return response;
     }
 
-    @PostMapping( value = AppRoutes.AuthController.SIGN_UP, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<ResponseModel<RegistrationResponse>> registerUser(@ModelAttribute RegistrationRequest signUpRequest) {
+    @PostMapping( value = AppRoutes.AuthController.SIGN_UP)
+    public ResponseEntity<ResponseModel<RegistrationResponse>> registerUser(@RequestBody RegistrationRequest signUpRequest) {
         log.info("Registering user!");
         ResponseEntity<ResponseModel<RegistrationResponse>> response = ResponseEntity.ok(convertToJSON(userService.registration(signUpRequest)));
         Objects.requireNonNull(response.getBody()).setMessage("Registration successful, Please login now!");
