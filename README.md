@@ -2,7 +2,11 @@ Hello everyone,
 
 I am Md Akhlaq Rifat Rahman, candidate for Senior Developer Java position. This is an e-commerce application given as a test.
 
-Please run the docker file and after sucessfully running the application, you need to visit 
+Please run the docker file usign these commands
+docker-compose build
+docker-compose up -d
+
+and after sucessfully running the application, you need to visit 
 
 https://localhost:8087/swagger-ui/index.html
 
